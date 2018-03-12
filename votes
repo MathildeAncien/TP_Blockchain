@@ -12,9 +12,13 @@ contract vote_contract {
     mapping(address => uint) public voters;
     
     Proposal [] public proposal;
-
-
-    address owner;
+  
+  
+    // MODIFIER EVENTS
+  // isowner
+  // canvote
+  
+   address owner;
     
     modifier isowner()
     {
@@ -22,12 +26,6 @@ contract vote_contract {
         _;
         }
     }
-
-  
-  
-    // MODIFIER EVENTS
-  // isowner
-  // canvote
   
 
     // CONSTRUCTEUR
@@ -38,10 +36,10 @@ contract vote_contract {
     
     // FUNCTIONS
 
-
-
     function vote(uint proposal) public {
-        
+        sender.voted = true;
+        sender.vote = proposal;
+        proposal[proposal].voteCount += sender.weight;
     }
     
 
