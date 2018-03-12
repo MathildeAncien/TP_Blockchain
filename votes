@@ -1,3 +1,63 @@
-jj 
+contract vote_contract {
+
+    struct Proposal {
+        bytes32 name;   // name 
+        uint voteCount; // number of accumulated votes
+    }
+    
+    /*
+    struct Voter {
+        uint weight; // weight is accumulated by delegation
+        //bool voted;  // if true, that person already voted
+        //address delegate;
+        //uint vote;   // index of the voted proposal
+    }
+    */
+    
+    address public chairperson;
+    
+    mapping(address => uint) public voters;
+    
+    Proposal [] public proposal;
+
+
+    address owner;
+    
+    modifier isowner()
+    {
+        if(msg.sender != owner){throw;
+        _;
+        }
+    }
+
+  
+  
+    // MODIFIER EVENTS
+  // isowner
+  // canvote
+  
+
+    // CONSTRUCTEUR
+    function vote_contract() {
+        owner = msg.sender;
+    }
+    
+    
+    // FUNCTIONS
+
+
+
+    function vote(uint proposal) public {
+        
+    }
+    
+
+    
+    // KILL    
+    function kill() isowner() {
+        delete owner;
+        selfdestruct(msg.sender);
+    }
+}
 
 
