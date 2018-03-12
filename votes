@@ -7,41 +7,60 @@ contract vote_contract {
         uint voteCount; // number of accumulated votes
     }
     
-    
-    address public chairperson;
-    
     mapping(address => uint) public voters;
     
     Proposal [] public proposal;
+
+   address owner;
   
-    address owner;
-    
+  
     // MODIFIER EVENTS
-    // canvote
-    
-    modifier isowner()
-    {
-        if(msg.sender != owner){throw;
-        _;
+    modifier canvote() {
+        if(voters[msg.sender]==0) {
+            revert();
+            _;
+        }
+    }
+
+    modifier isowner() {
+        if(msg.sender != owner){
+            revert();
+            _;
         }
     }
   
 
     // CONSTRUCTEUR
-    function vote_contract() {
+    function vote_contract() public {
         owner = msg.sender;
     }
     
     
     // FUNCTIONS
-    function vote(uint proposal) public {
-        proposal.voteCount += 1;
+    
+    // Add_proposal isowner()
+    function add_proposal(bytes32 new_proposal) public isowner() {
+        proposal.push(Proposal({    name: new_proposal,
+                                    voteCount: 0})
+                                );
+    }
+    
+    
+    // Ad voters(address voter) isowner()
+    function add_voters() public isowner() {
+        voters[msg.sender]++;
+    }
+
+
+    function vote(bytes32 _proposal) canvote() public {
+        voters[msg.sender]--;
+        proposal[_proposal].voteCount += 1;
     }
     
 
     
     // KILL    
-    function kill() isowner() {
+    function kill() public isowner() {
         delete owner;
         selfdestruct(msg.sender);
     }
