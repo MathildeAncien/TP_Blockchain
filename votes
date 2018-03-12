@@ -1,3 +1,54 @@
-jj 
+pragma solidity ^0.4.0;
+
+contract vote_contract {
+
+    struct Proposal {
+        bytes32 name;   // name 
+        uint voteCount; // number of accumulated votes
+    }
+    
+    address public chairperson;
+    
+    mapping(address => uint) public voters;
+    
+    Proposal [] public proposal;
 
 
+    address owner;
+    
+    modifier isowner()
+    {
+        if(msg.sender != owner){throw;
+        _;
+        }
+    }
+
+  
+  
+    // MODIFIER EVENTS
+  // isowner
+  // canvote
+  
+
+    // CONSTRUCTEUR
+    function vote_contract() {
+        owner = msg.sender;
+    }
+    
+    
+    // FUNCTIONS
+
+
+
+    function vote(uint proposal) public {
+        
+    }
+    
+
+    
+    // KILL    
+    function kill() isowner() {
+        delete owner;
+        selfdestruct(msg.sender);
+    }
+}
